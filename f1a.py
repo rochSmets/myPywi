@@ -14,52 +14,64 @@ import heckle
 import field
 import linp
 #
+import numpy as np
 #
 # .. load the run
-run = heckle.Heckle('/home/smets/codeS/hecKle/heckle4Me/', 'Nb-00')
+run = heckle.Heckle('/run/media/smets/croq0Disk/blAckDog/L17-Cu.a/', '')
+time      = 70.0
+component = 'x'
+specie    = 'a'
 #
 # .. get the desired data giving time
-dat0 = run.GetPxx(0.0, "p")
-dat1 = run.GetN(0.0, "p")
-data = dat0/dat1
+dat1 = run.getN(time, specie)
+dat2 = run.getB(time, component)
 #
 # .. set the needed parameter to plot the 2d field
-shifts    = [-3] # for a section, the list of shifts is considered after slice : so lenght is 1
+shifts    = None #[-3] # for a section, the list of shifts is considered after slice : so lenght is 1
 stride    = None #[None, 6]
-section   = [3, None]
+section   = [100, None]
 shade     = None #[[-2,2], [8,12]]
 diff      = None
-drawstyle = ['steps-mid']
+drawstyle = None #['steps-mid', None]
 linlog    = None
-linestyle = ['-']
-linecolor = ['k']
-linewidth = [1]
-ticks     = [1, 0.5]
+linestyle = ['-', '-']
+linecolor = ['r', 'k']
+linewidth = [1, 1]
+ticks     = None #[1, 0.5]
 subticks  = None #[2, 2]
 strticks  = None
-extent    = [[-3, 3],[0, 2]]
+extent    = [None, [-0.1, +4]] #[[-3, 3],[0, 2]]
 marker    = None #['o']
 legend    = None #['$B_of$']
-text      = ['$\mathrm{Proton~temperature~@~} t = 0.0$']
-xytext    = [[-2.8, 1.8]]
-labels    = ['$x/d_0$', '$T_i$']
+text      = None #['$\mathrm{Proton~temperature~@~} t = 0.0$']
+xytext    = None #[[-2.8, 1.8]]
+labels    = ['$y/d_0$', '']
 figsize   = [4.2, 2.4]
 filetype  = 'pdf'
 filename  = None
 #
+limit = [[0, run.domsize[0]], [0, run.domsize[1]]]
 #
 # .. load the data for line plot
-li0 = field.Field(run = run,
-                  data = data,
+li1 = field.Field(limit = limit,
+                  data = dat1,
                   domain = None,
                   stride = stride,
-                  section=section,
+                  section = section,
+                  shifts = shifts,
+                  labels = None)
+#
+li2 = field.Field(limit = limit,
+                  data = dat2,
+                  domain = None,
+                  stride = stride,
+                  section = section,
                   shifts = shifts,
                   labels = None)
 #
 # .. draw the plot
-plo = linp.Linp(axis = [li0.axis[0]],
-                data = [li0.data],
+plo = linp.Linp(axis = [li1.axis[0], li2.axis[0]],
+                data = [22*li1.data, np.fabs(li2.data)],
                 shade = shade,
                 diff = diff,
                 drawstyle = drawstyle,

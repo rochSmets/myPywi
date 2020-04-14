@@ -13,23 +13,24 @@ sys.path.append(os.path.join(os.environ['PYWI_DIR'], 'draws'))
 import heckle
 import field
 import colp
+import col
 #
 #
 # .. load the run
-run = heckle.Heckle('/run/media/smets/croq0Disk/blAckDog/02d/', 'Nb')
+run = heckle.Heckle('/run/media/smets/croq0Disk/blAckDog/L17-Cu.a/', 'Nb')
 #
 # .. set the needed parameter to plot the 2d field
-time      = [0, 80]
-domain    = [[20, 80], [5, 45]]
-shifts    = [-50, -25]
-bounds    = [0.16, +0.32] #[-0.6, +0.6]
-colormap  = ['summer_r', 16]
-flines    = 12
-ticks     = [10, 10]
+time      = [0, 98]
+domain    = None # [[20, 80], [5, 45]]
+shifts    = None #[-50, -25]
+bounds    = [0, 5]
+colormap  = col.mycolor('viridis_r', 16)
+flines    = 8
+ticks     = None #[10, 10]
 subticks  = None
-xytext    = [[-28, +22]]
-figsize   = [7.3, 3.2]
-basename  = 'Pe_'
+xytext    = [[4, 280]]
+figsize   = [4.61, 5.4]
+basename  = 'Ne_'
 filetype  = 'png'
 #
 limit = [[0, run.domsize[0]], [0, run.domsize[1]]]
@@ -40,10 +41,12 @@ times.sort()
 #
 for index, time in enumerate(times) :
 
-    text = ['$P_e \mathrm{~@~} t = \mathrm{~}$'+'${:6.1f}$'.format(time)]
+    text = ['$N_e \mathrm{~@~} t = \mathrm{~}$'+'${:6.1f}$'.format(time)]
     print('time : '+str(time)+' / '+str(times[-1]))
-    data = run.GetPzz(time, "e")
-    #data = run.GetV(time, "i")[..., 1]
+    # data = run.GetP(time, 'electrons', 'ZZ')
+    # data = run.getV(time, 'ions', 'Y')
+    data = run.getN(time, 'electrons')
+
     flux = run.fourierFlux(time)
     filename = basename+str(index)
 
