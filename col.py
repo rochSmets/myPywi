@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib.colors import ListedColormap
 
 
-def mycolor(name, num) :
+def myColor(name, num) :
 
     N2 = num//2
     N = 2*N2

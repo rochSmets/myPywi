@@ -18,6 +18,7 @@ import numpy as np
 #
 # .. load the run
 run = heckle.Heckle('/run/media/smets/croq0Disk/blAckDog/L17-Cu.a/', '')
+#
 time      = 70.0
 component = 'x'
 specie    = 'a'
@@ -27,7 +28,7 @@ dat1 = run.getN(time, specie)
 dat2 = run.getB(time, component)
 #
 # .. set the needed parameter to plot the 2d field
-shifts    = None #[-3] # for a section, the list of shifts is considered after slice : so lenght is 1
+shifts    = None #[-3] # list of shifts is considered after slice : lenght is 1
 stride    = None #[None, 6]
 section   = [100, None]
 shade     = None #[[-2,2], [8,12]]

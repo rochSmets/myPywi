@@ -18,25 +18,25 @@ import linp
 #
 #
 # .. load the run
-run = heckle.Heckle('/home/smets/codeS/hecKle/heckle4Me/', 'Nb-00')
-#run = heckle.Heckle('/run/media/smets/croq0Disk/blAckDog/00b/', 'Nb-00')
+run = heckle.Heckle('/run/media/smets/croq0Disk/blAckDog/L17-Cu.a/', '')
 #
-time = 20.0
-component = 1
+time = 60.0
+component = 'z'
 #
-drift = ohm.drift(run, time, 'ions')[..., component]
-hall  = ohm.hall(run, time)[..., component]
-gradP = ohm.gradP(run, time, 'electrons')[..., component]
-resis = ohm.resistive(run, time)[..., component]
-hyper = ohm.hyper(run, time)[..., component]
+drift = ohm.drift    (run, time, 'ions',      component, terms = 'all')
+hall  = ohm.hall     (run, time,              component, terms = 'all')
+gradP = ohm.gradP    (run, time, 'electrons', component, terms = 'all')
+resis = ohm.resistive(run, time,              component               )
+hyper = ohm.hyper    (run, time,              component, terms = 'all')
 #
+print(hyper.min(), hyper.max())
 # .. set the needed parameter to plot the 2d field
-shifts    = None # for a section, the list of shifts is considered after slice : so lenght is 1
+shifts    = None # list of shifts is considered after slice : lenght is 1
 stride    = None
-section   = [3.0, None]
+section   = [100.0, None]
 shade     = None
 diff      = None
-drawstyle = ['steps-mid', 'steps-mid', 'steps-mid', 'steps-mid', 'steps-mid']
+drawstyle = None #['steps-mid', 'steps-mid', 'steps-mid', 'steps-mid', 'steps-mid']
 linlog    = None
 linestyle = ['-', '--', '-', '-.', ':']
 linecolor = ['r', 'g', 'k', 'b', 'c']
@@ -44,19 +44,20 @@ linewidth = [1, 1, 1, 1, 1]
 ticks     = None
 subticks  = None
 strticks  = None
-extent    = [None, [-1.3, 1.3]]
+extent    = [[140, 160], None]
 marker    = None
 legend    = None
 text      = None
 xytext    = None
 labels    = ['$y \, d_0^{-1}$', '$E_z$']
-figsize   = [6, 9]
+figsize   = [4, 2.4]
 filetype  = 'pdf'
 filename  = None
 #
+limit = [[0, run.domsize[0]], [0, run.domsize[1]]]
 #
 # .. load the data for line plot
-dri = field.Field(limit = [[0, run.domsize[0]], [0, run.domsize[1]]],
+dri = field.Field(limit = limit,
                   data = drift,
                   domain = None,
                   stride = stride,
@@ -64,7 +65,7 @@ dri = field.Field(limit = [[0, run.domsize[0]], [0, run.domsize[1]]],
                   shifts = shifts,
                   labels = None)
 #
-hal = field.Field(limit = [[0, run.domsize[0]], [0, run.domsize[1]]],
+hal = field.Field(limit = limit,
                   data = hall,
                   domain = None,
                   stride = stride,
@@ -72,7 +73,7 @@ hal = field.Field(limit = [[0, run.domsize[0]], [0, run.domsize[1]]],
                   shifts = shifts,
                   labels = None)
 #
-gra = field.Field(limit = [[0, run.domsize[0]], [0, run.domsize[1]]],
+gra = field.Field(limit = limit,
                   data = gradP,
                   domain = None,
                   stride = stride,
@@ -80,7 +81,7 @@ gra = field.Field(limit = [[0, run.domsize[0]], [0, run.domsize[1]]],
                   shifts = shifts,
                   labels = None)
 #
-res = field.Field(limit = [[0, run.domsize[0]], [0, run.domsize[1]]],
+res = field.Field(limit = limit,
                   data = resis,
                   domain = None,
                   stride = stride,
@@ -88,7 +89,7 @@ res = field.Field(limit = [[0, run.domsize[0]], [0, run.domsize[1]]],
                   shifts = shifts,
                   labels = None)
 #
-hyp = field.Field(limit = [[0, run.domsize[0]], [0, run.domsize[1]]],
+hyp = field.Field(limit = limit,
                   data = hyper,
                   domain = None,
                   stride = stride,
@@ -115,7 +116,7 @@ plo = linp.Linp(axis = [dri.axis[0], hal.axis[0], gra.axis[0], res.axis[0], hyp.
                 text = text,
                 xytext = xytext,
                 labels = labels,
-                figsize = [5, 4],
+                figsize = figsize,
                 filetype = filetype,
                 filename = filename)
 #

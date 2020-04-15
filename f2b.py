@@ -19,16 +19,11 @@ from colp import Colp
 run = Heckle('/home/roch/sherpa/heckle/munster/', 'zobi')
 #
 # .. set the needed parameter to plot the 2d field
-#plane     = "xy"
-#domain    = None
-field = 'mod'
-domain = 'full'
-#cut       = 0.0
+field     = 'mod'
+domain    = 'full'
 time      = [0, 20]
-#shifts    = [-4, -2]
 bounds    = [0, 1000]
 colormap  = ['jet', 64]
-#flines    = None
 ticks     = None
 subticks  = None
 figsize   = [9, 6]

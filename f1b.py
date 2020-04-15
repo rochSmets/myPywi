@@ -16,13 +16,13 @@ import linp
 #
 #
 # .. set the needed parameter to plot the 2d field
-path      = '/run/media/smets/croq0Disk/blAckDog/02b/'
-time      = None # [20, 22]
-box       = [[40.0, 60.0], [24.0, 26.0]]
+path      = '/run/media/smets/croq0Disk/blAckDog/L17-Cu.a/'
+time      = [0, 90]
+box       = [[90.0, 110.0], [140.0, 160.0]]
 axis      = 1
 shade     = None
 diff      = None
-step      = ['steps-mid']
+drawstyle = None
 linlog    = None
 linestyle = ['-']
 linecolor = ['k']
@@ -30,13 +30,13 @@ linewidth = [1]
 ticks     = [20, 2]
 subticks  = None
 strticks  = None
-extent    = [[0, 80], [0, 8]]
+extent    = None #[[0, 80], [0, 8]]
 marker    = None
 legend    = None
 text      = None
 xytext    = None
 labels    = ['$t \, \Omega_0^{-1}$', '$A_z$']
-figsize   = [4, 3]
+figsize   = [4.0, 2.2]
 filetype  = 'pdf'
 filename  = 'Linp'
 #
@@ -51,7 +51,7 @@ plo = linp.Linp(axis = [xdata],
                 data = [ydata],
                 shade = shade,
                 diff = diff,
-                step = step,
+                drawstyle = drawstyle,
                 linlog = linlog,
                 linestyle = linestyle,
                 linecolor = linecolor,
@@ -65,7 +65,7 @@ plo = linp.Linp(axis = [xdata],
                 text = text,
                 xytext = xytext,
                 labels = labels,
-                figsize = [5, 4],
+                figsize = figsize,
                 filetype = filetype,
                 filename = filename)
 #
